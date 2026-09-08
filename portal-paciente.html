@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal del Paciente — Hospital de Clínicas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background:#F5F6F8;">
+
+    <nav class="navbar navbar-expand-sm bg-hc text-white px-3" aria-label="Navegación principal">
+        <div class="container-fluid px-0" style="max-width:820px;">
+            <a class="navbar-brand text-white me-4" href="portal-paciente.html">
+                <span class="fw-semibold d-block" style="font-size:15px;">Hospital de Clínicas</span>
+                <span class="opacity-50 d-block" style="font-size:11px;">Portal del Paciente</span>
+            </a>
+            <button class="navbar-toggler border-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Abrir menú">
+                <i class="bi bi-list text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <div class="navbar-nav ms-auto align-items-sm-center gap-sm-2">
+                    <a class="nav-link text-white" href="login.php"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 px-3 py-4" style="max-width:820px; margin:0 auto; width:100%;">
+
+        <h5 class="fw-semibold text-dark mb-1">Información para Pacientes</h5>
+        <p class="text-secondary mb-4" style="font-size:14px;">Documentos, turnos, farmacia y acceso a resultados.</p>
+
+        <ul class="nav nav-tabs border-bottom mb-4 tab-custom" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation"><a class="nav-link active text-primary fw-medium" href="#" onclick="switchTab('docs',this);return false;" role="tab"><i class="bi bi-file-earmark-text me-1"></i>Documentos</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="#" onclick="switchTab('enc',this);return false;" role="tab"><i class="bi bi-clipboard-data me-1"></i>Encuestas</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="#" onclick="switchTab('turnos',this);return false;" role="tab"><i class="bi bi-ticket-perforated me-1"></i>Turnos</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="#" onclick="switchTab('farmacia',this);return false;" role="tab"><i class="bi bi-capsule me-1"></i>Farmacia</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="#" onclick="switchTab('qr',this);return false;" role="tab"><i class="bi bi-qr-code me-1"></i>Mi Resultado</a></li>
+        </ul>
+
+        <!-- ==================== DOCUMENTOS ==================== -->
+        <div id="panelDocs" class="panel-section show" role="tabpanel">
+            <input type="text" class="form-control mb-3" placeholder="Buscar documento o especialidad..." id="searchInput" oninput="filterDocs()" style="font-size:15px;padding:10px 14px;">
+            <div id="deptList" class="d-flex flex-column gap-2">
+
+                <div class="dept-block">
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center py-2 px-3 shadow-sm" onclick="toggleDept(this)" style="font-size:15px;">
+                        <span><i class="bi bi-heart-pulse text-primary me-2"></i> Dpto. Clínico de Medicina <span class="badge bg-primary bg-opacity-10 text-primary ms-2" style="font-size:11px;">9</span></span>
+                        <i class="bi bi-chevron-right text-muted chev" style="font-size:12px;"></i>
+                    </button>
+                    <div class="dept-body"><div class="ps-3 pe-1 py-2">
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Cardiología <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2 d-flex flex-column gap-1">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="ecocardiograma dobutamina cardiologia"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Ecocardiograma con dobutamina</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Ecocardiograma con dobutamina','Cardiología','Preparación y procedimiento del ecocardiograma con dobutamina.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Ecocardiograma con dobutamina')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="warfarina tratamiento cardiologia"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Tratamiento con warfarina</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Tratamiento con warfarina','Cardiología','Indicaciones para pacientes bajo tratamiento anticoagulante con warfarina.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Tratamiento con warfarina')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="ecocardiograma transesofagico cardiologia"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Ecocardiograma transesofágico</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Ecocardiograma transesofágico','Cardiología','Preparación para el ecocardiograma transesofágico.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Ecocardiograma transesofágico')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Gastroenterología / Ostomías <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="pauta ostomizados gastroenterologia"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Pauta para pacientes ostomizados</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Pauta para pacientes ostomizados','Gastroenterología','Guía de cuidados para pacientes con ostomías.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Pauta para pacientes ostomizados')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Nefrología <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2 d-flex flex-column gap-1">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="ingreso nefrologia trasplante"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Ingreso a nefrología y trasplante</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Ingreso a nefrología y trasplante','Nefrología','Requisitos para el programa de trasplante renal.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Ingreso a nefrología y trasplante')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="alta enfermeria nefrologia"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Plan de alta — Nefrología</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Plan de alta — Nefrología','Nefrología','Indicaciones al egreso.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Plan de alta — Nefrología')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="enfermeria trasplantados"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Cuidados de enfermería — trasplantados</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Cuidados enfermería — trasplantados','Nefrología','Cuidados para pacientes trasplantados.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Cuidados de enfermería — trasplantados')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Medicina Nuclear <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2 d-flex flex-column gap-1">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="pertecneciato medicina nuclear"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Estudios con pertecneciato</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Estudios con pertecneciato','Medicina Nuclear','Estudios diagnósticos con pertecneciato Tc-99m.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Estudios con pertecneciato')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="centellograma miocardica"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Centellograma de perfusión miocárdica</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Centellograma miocárdica','Medicina Nuclear','Información sobre el centellograma miocárdico.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Centellograma de perfusión miocárdica')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <div class="dept-block">
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center py-2 px-3 shadow-sm" onclick="toggleDept(this)" style="font-size:15px;">
+                        <span><i class="bi bi-scissors text-info me-2"></i> Dpto. Clínico de Cirugía <span class="badge bg-info bg-opacity-10 text-info ms-2" style="font-size:11px;">2</span></span>
+                        <i class="bi bi-chevron-right text-muted chev" style="font-size:12px;"></i>
+                    </button>
+                    <div class="dept-body"><div class="ps-3 pe-1 py-2 d-flex flex-column gap-1">
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Ginecotocología <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="interrupcion embarazo"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Interrupción voluntaria del embarazo</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Interrupción voluntaria del embarazo','Ginecotocología','Indicaciones del procedimiento.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Interrupción voluntaria del embarazo')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Urología <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="prostatectomia radical"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Prostatectomía radical</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Prostatectomía radical','Urología','Información sobre prostatectomía radical.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Prostatectomía radical')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <div class="dept-block">
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center py-2 px-3 shadow-sm" onclick="toggleDept(this)" style="font-size:15px;">
+                        <span><i class="bi bi-microscope text-warning me-2"></i> Servicios Diagnósticos <span class="badge bg-warning bg-opacity-10 text-warning ms-2" style="font-size:11px;">2</span></span>
+                        <i class="bi bi-chevron-right text-muted chev" style="font-size:12px;"></i>
+                    </button>
+                    <div class="dept-body"><div class="ps-3 pe-1 py-2 d-flex flex-column gap-1">
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">Imagenología <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="preparacion estudios"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Preparación estudios imagenológicos</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Preparación estudios imagenológicos','Imagenología','Instrucciones de preparación.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Preparación estudios imagenológicos')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                        <div class="spec-block">
+                            <button class="btn btn-sm text-start w-100 py-1 px-2" style="font-size:14px;color:#374151;" onclick="toggleSpec(this)">General <i class="bi bi-chevron-right text-muted chev float-end" style="font-size:10px;margin-top:4px;"></i></button>
+                            <div class="dept-body"><div class="ps-3 pb-2">
+                                <div class="doc-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2" data-s="prevencion infecciones"><div class="d-flex align-items-center gap-2 min-w-0"><i class="bi bi-file-earmark-pdf text-danger flex-shrink-0" style="font-size:18px;"></i><span class="text-truncate" style="font-size:14px;">Prevención de infecciones</span></div><div class="d-flex gap-2 flex-shrink-0"><button class="btn btn-outline-primary doc-btn" onclick="verDoc('Prevención de infecciones','General','Medidas de prevención.')"><i class="bi bi-eye me-1"></i>Ver</button><button class="btn btn-outline-secondary doc-btn" onclick="descargar('Prevención de infecciones')"><i class="bi bi-download me-1"></i>Descargar</button></div></div>
+                            </div></div>
+                        </div>
+                    </div></div>
+                </div>
+
+                <div id="noResults" class="text-center text-muted py-4 d-none" style="font-size:14px;">No se encontraron documentos.</div>
+            </div>
+        </div>
+
+        <!-- ==================== ENCUESTAS ==================== -->
+        <div id="panelEnc" class="panel-section" role="tabpanel">
+            <p class="text-secondary mb-3" style="font-size:14px;">Las encuestas son anónimas y voluntarias.</p>
+            <div class="card border shadow-sm mb-3"><div class="card-body p-4 d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3">
+                <div><div class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-emoji-smile text-primary" style="font-size:18px;"></i><span class="fw-semibold" style="font-size:15px;">Encuesta de satisfacción</span><span class="badge bg-success bg-opacity-10 text-success" style="font-size:11px;">Disponible</span></div><p class="text-secondary mb-0" style="font-size:13px;">7 preguntas — 3 min</p></div>
+                <button class="btn btn-hc btn-primary flex-shrink-0" style="padding:10px 24px;font-size:15px;" onclick="abrirEncuesta('estandar')">Responder encuesta</button>
+            </div></div>
+            <div class="card border shadow-sm"><div class="card-body p-4 d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3">
+                <div><div class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-heart text-info" style="font-size:18px;"></i><span class="fw-semibold" style="font-size:15px;">Encuesta — Usuario trasplantado</span><span class="badge bg-success bg-opacity-10 text-success" style="font-size:11px;">Disponible</span></div><p class="text-secondary mb-0" style="font-size:13px;">Nefrología — 9 preguntas — 5 min</p></div>
+                <button class="btn btn-hc btn-primary flex-shrink-0" style="padding:10px 24px;font-size:15px;" onclick="abrirEncuesta('trasplantado')">Responder encuesta</button>
+            </div></div>
+        </div>
+
+        <!-- ==================== TURNOS ==================== -->
+        <div id="panelTurnos" class="panel-section" role="tabpanel">
+            <div id="turnoForm">
+                <div class="row g-2 mb-3">
+                    <div class="col-4"><div class="stat-mini"><div class="num">3</div><div class="lbl">Consultorios activos</div></div></div>
+                    <div class="col-4"><div class="stat-mini"><div class="num">8</div><div class="lbl">En espera ahora</div></div></div>
+                    <div class="col-4"><div class="stat-mini"><div class="num">13</div><div class="lbl">Turnos del día</div></div></div>
+                </div>
+                <div class="card border shadow-sm mb-3">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-3" style="font-size:15px;"><i class="bi bi-ticket-perforated me-2 text-primary"></i>Sacar número</h6>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium" style="font-size:14px;">Especialidad <span class="text-danger">*</span></label>
+                            <select class="form-select" id="turnoEsp" style="font-size:15px;">
+                                <option value="">Seleccionar especialidad...</option>
+                                <optgroup label="Dpto. Clínico de Medicina">
+                                    <option value="Cardiología">Cardiología</option>
+                                    <option value="Clínica médica A">Clínica médica A</option>
+                                    <option value="Clínica médica B">Clínica médica B</option>
+                                    <option value="Clínica médica C">Clínica médica C</option>
+                                    <option value="Dermatología">Dermatología</option>
+                                    <option value="Endocrinología">Endocrinología</option>
+                                    <option value="Gastroenterología">Gastroenterología</option>
+                                    <option value="Geriatría">Geriatría</option>
+                                    <option value="Hematología">Hematología</option>
+                                    <option value="Infectología">Infectología</option>
+                                    <option value="Nefrología">Nefrología</option>
+                                    <option value="Neurología">Neurología</option>
+                                    <option value="Oncología">Oncología</option>
+                                    <option value="Psiquiatría">Psiquiatría</option>
+                                    <option value="Rehabilitación">Med. física y rehabilitación</option>
+                                    <option value="Autoinmunes">U.E. Autoinmunes sistémicas</option>
+                                    <option value="Tabaquismo">Unidad de tabaquismo</option>
+                                    <option value="Cuidados Paliativos">Cuidados Paliativos</option>
+                                </optgroup>
+                                <optgroup label="Dpto. Clínico de Cirugía">
+                                    <option value="Traumatología">Traumatología y ortopedia</option>
+                                    <option value="Urología">Urología</option>
+                                    <option value="Cirugía vascular">Cirugía vascular periférica</option>
+                                    <option value="Cirugía plástica">Cirugía plástica y quemados</option>
+                                    <option value="Neurocirugía">Neurocirugía</option>
+                                    <option value="Oftalmología">Oftalmología</option>
+                                    <option value="Otorrinolaringología">Otorrinolaringología</option>
+                                    <option value="Odontología">Odontología</option>
+                                    <option value="Ginecotocología">Ginecotocología</option>
+                                </optgroup>
+                                <optgroup label="Servicios Diagnósticos">
+                                    <option value="Imagenología">Imagenología</option>
+                                </optgroup>
+                            </select>
+                            <div class="text-danger" style="font-size:13px;" id="turnoEspError"></div>
+                        </div>
+                        <button class="btn btn-hc btn-primary w-100" style="padding:12px;font-size:15px;" onclick="sacarTurno()"><i class="bi bi-ticket-perforated me-2"></i>Sacar número</button>
+                    </div>
+                </div>
+                <div class="card border shadow-sm">
+                    <div class="card-header bg-white border-bottom px-4 py-2"><span class="fw-semibold" style="font-size:13px;">Estado de consultorios</span></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0 turno-table">
+                                <thead class="table-light"><tr><th>N°</th><th>Especialidad</th><th>Depto.</th><th class="text-center">Turno</th><th class="text-center">Espera</th></tr></thead>
+                                <tbody>
+                                    <tr><td>1</td><td>Cardiología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">42</span></td><td class="text-center">5</td></tr>
+                                    <tr><td>2</td><td>Gastroenterología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">18</span></td><td class="text-center">3</td></tr>
+                                    <tr><td>3</td><td>Nefrología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">7</span></td><td class="text-center">8</td></tr>
+                                    <tr><td>4</td><td>Clínica médica A</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">25</span></td><td class="text-center">2</td></tr>
+                                    <tr><td>5</td><td>Clínica médica B</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">31</span></td><td class="text-center">4</td></tr>
+                                    <tr><td>6</td><td>Dermatología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">14</span></td><td class="text-center">1</td></tr>
+                                    <tr><td>7</td><td>Endocrinología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="text-muted" style="font-size:15px;">—</span></td><td class="text-center">0</td></tr>
+                                    <tr><td>8</td><td>Neurología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">9</span></td><td class="text-center">6</td></tr>
+                                    <tr><td>9</td><td>Oncología</td><td class="text-muted">Medicina</td><td class="text-center"><span class="turno-num">52</span></td><td class="text-center">7</td></tr>
+                                    <tr><td>10</td><td>Traumatología</td><td class="text-muted">Cirugía</td><td class="text-center"><span class="turno-num">55</span></td><td class="text-center">6</td></tr>
+                                    <tr><td>11</td><td>Urología</td><td class="text-muted">Cirugía</td><td class="text-center"><span class="turno-num">11</span></td><td class="text-center">4</td></tr>
+                                    <tr><td>12</td><td>Oftalmología</td><td class="text-muted">Cirugía</td><td class="text-center"><span class="turno-num">38</span></td><td class="text-center">3</td></tr>
+                                    <tr><td>13</td><td>Imagenología</td><td class="text-muted">Diagnósticos</td><td class="text-center"><span class="turno-num">33</span></td><td class="text-center">2</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="turnoTicket" class="d-none d-flex justify-content-center">
+                <div class="ticket p-4 text-center" style="width:320px;">
+                    <p class="text-muted mb-1" style="font-size:13px;">Hospital de Clínicas</p>
+                    <div class="py-3"><div class="ticket-num mb-1" id="miTurnoNum">47</div></div>
+                    <hr class="mx-auto my-3" style="width:80px;border-top:2px dashed #D1D5DB;">
+                    <p class="fw-semibold mb-0" style="font-size:17px;" id="miTurnoEsp">Cardiología</p>
+                    <p class="text-muted mb-3" style="font-size:13px;" id="miTurnoDept">Dpto. Medicina — Consultorio 1</p>
+                    <div class="d-flex justify-content-center gap-4 mt-2">
+                        <div><p class="text-muted mb-0" style="font-size:11px;">Atendiendo</p><p class="fw-bold text-primary mb-0" style="font-size:22px;" id="turnoAtendido">42</p></div>
+                        <div style="width:2px;height:40px;background:#E5E7EB;border-radius:1px;"></div>
+                        <div><p class="text-muted mb-0" style="font-size:11px;">Adelante</p><p class="fw-bold text-dark mb-0" style="font-size:22px;" id="personasAdelante">5</p></div>
+                    </div>
+                    <button class="btn btn-outline-primary mt-4" onclick="volverTurnos()"><i class="bi bi-arrow-left me-1"></i>Sacar otro turno</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== FARMACIA ==================== -->
+        <div id="panelFarmacia" class="panel-section" role="tabpanel">
+            <div class="mb-3"><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input type="text" class="form-control" placeholder="Buscar medicamento..." id="searchMed" oninput="filterMed()" style="font-size:15px;padding:10px 14px;"></div></div>
+            <div class="mb-4 d-flex gap-2">
+                <div class="stat-mini flex-grow-1"><div class="num" style="color:#10B981;">8</div><div class="lbl">Retirados</div></div>
+                <div class="stat-mini flex-grow-1"><div class="num" style="color:#F59E0B;">4</div><div class="lbl">Pendientes</div></div>
+                <div class="stat-mini flex-grow-1"><div class="num" style="color:#EF4444;">1</div><div class="lbl">Sin stock</div></div>
+            </div>
+            <div id="medList" class="d-flex flex-column gap-2">
+                <div class="med-group" data-g="medicina">
+                    <div class="section-title">Dpto. Clínico de Medicina</div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="enalapril cardiologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Enalapril 10 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 12 horas — Cardiología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="metformina endocrinologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Metformina 850 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 8 horas — Endocrinología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card warn med-item" data-m="warfarina cardiologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Warfarina 5 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido diario — Cardiología</p></div><span class="badge bg-warning bg-opacity-10 text-warning flex-shrink-0" style="font-size:11px;">Pendiente</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="omeprazol gastroenterologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Omeprazol 20 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 cápsula en ayunas — Gastroenterología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card warn med-item" data-m="atorvastatina cardiologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Atorvastatina 20 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido en la noche — Cardiología</p></div><span class="badge bg-warning bg-opacity-10 text-warning flex-shrink-0" style="font-size:11px;">Pendiente</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card warn med-item" data-m="tacrolimus nefrologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Tacrolimus 1 mg</p><p class="text-muted mb-0" style="font-size:12px;">2 cápsulas cada 12 horas — Nefrología</p></div><span class="badge bg-warning bg-opacity-10 text-warning flex-shrink-0" style="font-size:11px;">Pendiente</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card danger med-item" data-m="prednisona nefrologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Prednisona 5 mg</p><p class="text-muted mb-0" style="font-size:12px;">2 comprimidos cada 24 horas — Nefrología</p></div><span class="badge bg-danger bg-opacity-10 text-danger flex-shrink-0" style="font-size:11px;">Sin stock</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="azatioprina autoinmunes"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Azatioprina 50 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido diario — U.E. Autoinmunes</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="amoxicilina infectologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Amoxicilina 500 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comp cada 8h por 7 días — Infectología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card warn med-item" data-m="gabapentina neurologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Gabapentina 300 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comp cada 12 horas — Neurología</p></div><span class="badge bg-warning bg-opacity-10 text-warning flex-shrink-0" style="font-size:11px;">Pendiente</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="pantoprazol oncologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Pantoprazol 40 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 cápsula en ayunas — Oncología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="clonazepam psiquiatria"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Clonazepam 0.5 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 12 horas — Psiquiatría</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="dipirona rehabilitacion"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Dipirona 500 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 8 horas si hay dolor — Rehabilitación</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                </div>
+                <div class="med-group" data-g="cirugia">
+                    <div class="section-title">Dpto. Clínico de Cirugía</div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="tramadol traumatologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Tramadol 50 mg</p><p class="text-muted mb-0" style="font-size:12px;">1-2 comprimidos cada 8 horas — Traumatología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card warn med-item" data-m="cefalexina urologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Cefalexina 500 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 6 horas por 7 días — Urología</p></div><span class="badge bg-warning bg-opacity-10 text-warning flex-shrink-0" style="font-size:11px;">Pendiente</span></div></div>
+                    <div class="card border-0 p-3 mb-2 med-card ok med-item" data-m="ibuprofeno oftalmologia"><div class="d-flex justify-content-between align-items-center gap-3"><div class="min-w-0"><p class="fw-semibold mb-0" style="font-size:14px;">Ibuprofeno 400 mg</p><p class="text-muted mb-0" style="font-size:12px;">1 comprimido cada 8 horas si hay dolor — Oftalmología</p></div><span class="badge bg-success bg-opacity-10 text-success flex-shrink-0" style="font-size:11px;">Retirado</span></div></div>
+                </div>
+            </div>
+            <div id="noMed" class="text-center text-muted py-4 d-none" style="font-size:14px;">No se encontraron medicamentos.</div>
+        </div>
+
+        <!-- ==================== MI RESULTADO (QR) ==================== -->
+        <div id="panelQr" class="panel-section" role="tabpanel">
+            <div class="card border shadow-sm mb-3">
+                <div class="card-body p-4 text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-xl bg-primary bg-opacity-10 mb-3" style="width:48px;height:48px;">
+                        <i class="bi bi-qr-code text-primary" style="font-size:24px;"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-1" style="font-size:16px;">Generar QR de resultado</h6>
+                    <p class="text-secondary mb-3" style="font-size:13px;">Ingresá tu cédula para generar un QR que te da acceso a tus resultados de estudios.</p>
+                    <div class="d-flex gap-2 justify-content-center mb-2" style="max-width:340px;margin:0 auto;">
+                        <input type="text" class="form-control form-control-lg" id="ciInput" placeholder="Ej: 12345678" maxlength="8" style="font-size:16px;padding:12px 16px;text-align:center;letter-spacing:0.1em;">
+                        <button class="btn btn-hc btn-primary flex-shrink-0" style="padding:12px 24px;font-size:15px;" onclick="generarQR()"><i class="bi bi-qr-code me-1"></i>Generar</button>
+                    </div>
+                    <div class="text-start mx-auto" style="max-width:340px;"><div class="text-danger" style="font-size:13px;" id="ciError"></div></div>
+                </div>
+            </div>
+            <div id="qrResult" class="d-none">
+                <div class="card border shadow-sm">
+                    <div class="card-body p-4 text-center">
+                        <p class="text-muted mb-3" style="font-size:13px;">Escaneá este código para ver tus resultados</p>
+                        <div id="qrCode" class="d-inline-block mb-3 p-4 bg-white rounded-3 border"></div>
+                        <div class="d-flex justify-content-center gap-4 mb-4">
+                            <div class="text-start"><p class="text-muted mb-0" style="font-size:12px;">C.I.:</p><p class="fw-semibold text-dark mb-0" style="font-size:16px;" id="qrCi"></p></div>
+                            <div class="text-start"><p class="text-muted mb-0" style="font-size:12px;">Válido hasta:</p><p class="fw-semibold text-dark mb-0" style="font-size:16px;" id="qrFecha"></p></div>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button class="btn btn-primary" onclick="descargarQR()"><i class="bi bi-download me-1"></i>Descargar QR</button>
+                            <button class="btn btn-outline-secondary" onclick="document.getElementById('qrResult').classList.add('d-none')"><i class="bi bi-x-lg me-1"></i>Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-top mt-auto py-3 px-3">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-1" style="max-width:820px;margin:0 auto;">
+            <span class="text-muted" style="font-size:12px;">Hospital de Clínicas — DTI</span>
+            <span class="text-muted" style="font-size:12px;">S.I.G.S.M.</span>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content" id="modalContent"></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

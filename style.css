@@ -1,0 +1,222 @@
+/* =========================
+   BASE / GENERALES
+========================= */
+.bg-hc {
+  background-color: #1B3A5C;
+}
+
+.btn-hc {
+  --bs-btn-bg: #2563EB;
+  --bs-btn-border-color: #2563EB;
+  --bs-btn-hover-bg: #1D4ED8;
+  --bs-btn-hover-border-color: #1D4ED8;
+  --bs-btn-active-bg: #1D4ED8;
+  --bs-btn-active-border-color: #1D4ED8;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+}
+
+/* =========================
+   TABS / SECCIONES
+========================= */
+.panel-section {
+  display: none;
+}
+
+.panel-section.show {
+  display: block;
+}
+
+.tab-custom .nav-link {
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 8px 8px 0 0;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.tab-custom .nav-link:hover:not(.active) {
+  background: #F3F4F6;
+  border-radius: 8px 8px 0 0;
+}
+
+/* =========================
+   DOCUMENTOS / ACORDEONES
+========================= */
+.dept-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.dept-body.open {
+  max-height: 2000px;
+}
+
+.chev {
+  transition: transform 0.2s;
+}
+
+.chev.rot {
+  transform: rotate(90deg);
+}
+
+.doc-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.doc-item:hover {
+  background-color: #F9FAFB;
+}
+
+.doc-btn {
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+/* =========================
+   TURNOS
+========================= */
+.ticket {
+  background: #fff;
+  border: 2px dashed #D1D5DB;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #2563EB, #1D4ED8);
+}
+
+.ticket-num {
+  font-size: 64px;
+  font-weight: 800;
+  color: #1B3A5C;
+  line-height: 1;
+}
+
+.turno-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6B7280;
+  font-weight: 600;
+  border-bottom-width: 2px !important;
+}
+
+.turno-table td {
+  font-size: 13px;
+  vertical-align: middle;
+  border-bottom-color: #F3F4F6 !important;
+}
+
+.turno-table tbody tr:hover {
+  background-color: #FAFAFA;
+}
+
+.turno-num {
+  font-weight: 700;
+  font-size: 15px;
+  color: #2563EB;
+}
+
+/* =========================
+   FARMACIA
+========================= */
+.med-card {
+  border-left: 4px solid #2563EB;
+}
+
+.med-card.warn {
+  border-left-color: #F59E0B;
+}
+
+.med-card.danger {
+  border-left-color: #EF4444;
+}
+
+.med-card.ok {
+  border-left-color: #10B981;
+}
+
+.section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9CA3AF;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.section-title::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: #E5E7EB;
+}
+
+/* =========================
+   ESTADISTICAS / OTROS
+========================= */
+.stat-mini {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.stat-mini .num {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-mini .lbl {
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+/* =========================
+   QR / ENCUESTAS
+========================= */
+#qrCode img,
+#qrCode canvas {
+  border-radius: 12px;
+}
+
+.scale-opt {
+  cursor: pointer;
+  border: 2px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.scale-opt:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.scale-opt.sel {
+  background-color: #EFF6FF;
+  border-color: #2563EB;
+}
