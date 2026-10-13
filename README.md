@@ -22,7 +22,6 @@ El sistema permite:
 * Gestión de documentación para pacientes.
 * Acceso mediante códigos QR.
 * Encuestas de satisfacción.
-* Gestión y trazabilidad de ambulancias.
 
 ## Integrantes
 
