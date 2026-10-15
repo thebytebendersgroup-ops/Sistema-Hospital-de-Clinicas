@@ -1,0 +1,9 @@
+# Archivos que suben los usuarios (no van al repositorio)
+uploads/*
+!uploads/.htaccess
+
+# Archivos del editor y del sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

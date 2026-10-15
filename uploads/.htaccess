@@ -1,0 +1,5 @@
+Options -Indexes
+# En esta carpeta nunca se ejecuta PHP (solo se guardan PDF e imágenes)
+<FilesMatch "\.(php|phtml|phar)$">
+    Require all denied
+</FilesMatch>
